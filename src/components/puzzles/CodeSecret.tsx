@@ -342,7 +342,7 @@ export const CodeSecret = ({ onSuccess }: CodeSecretProps) => {
   );
 };
 
-const styles = `
+const _styles = `
 .safe {
   position: relative;
   width: 300px;

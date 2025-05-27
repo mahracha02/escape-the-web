@@ -23,6 +23,36 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { 
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }]
     },
   },
+  // Configuration pour les fichiers de configuration
+  {
+    files: ['*.config.{js,ts}', 'vite.config.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node
+      }
+    },
+    rules: {
+      '@typescript-eslint/no-unused-expressions': 'off'
+    }
+  },
+  // Configuration pour les tests
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.jest
+      }
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off'
+    }
+  }
 )
