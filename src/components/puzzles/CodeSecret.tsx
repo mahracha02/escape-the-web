@@ -33,7 +33,7 @@ export const CodeSecret = ({ onSuccess }: CodeSecretProps) => {
     if (code === '1337') {
       setIsSafeOpen(true);
       setTimeout(() => {
-        setIsSuccess(true);
+        setIsSuccess(true); 
       }, 3000);
       setTimeout(() => {
         onSuccess();
@@ -106,7 +106,7 @@ export const CodeSecret = ({ onSuccess }: CodeSecretProps) => {
                   <div className="safe-display">
                     <div className="code-display">
                       {code.split('').map((digit, index) => (
-                        <div key={index} className="code-digit">{digit}</div>
+                        <div key={index} className="code-digit" data-testid={`code-digit-${digit}`}>{digit}</div>
                       ))}
                       {Array(4 - code.length).fill('').map((_, index) => (
                         <div key={`empty-${index}`} className="code-digit empty" />
@@ -342,129 +342,4 @@ export const CodeSecret = ({ onSuccess }: CodeSecretProps) => {
   );
 };
 
-const styles = `
-.safe {
-  position: relative;
-  width: 300px;
-  height: 400px;
-  margin: 0 auto;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.safe-front {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, #2c3e50, #34495e);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transform-style: preserve-3d;
-  transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.safe.open .safe-front {
-  transform: rotateY(-120deg);
-  transform-origin: left;
-}
-
-.safe-door {
-  position: absolute;
-  inset: 20px;
-  background: linear-gradient(45deg, #1a1a1a, #2c2c2c);
-  border-radius: 10px;
-  transform-style: preserve-3d;
-}
-
-.safe-handle {
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  width: 60px;
-  height: 20px;
-  background: #c0392b;
-  border-radius: 10px;
-  transform: translateY(-50%);
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-.safe-lock {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 80px;
-  height: 80px;
-  background: #7f8c8d;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-}
-
-.safe-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.safe.open .safe-glow {
-  opacity: 1;
-  animation: glow 2s infinite;
-}
-
-@keyframes glow {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.3; }
-}
-
-.safe-success {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(46,204,113,0.2) 0%, transparent 70%);
-  opacity: 0;
-  animation: successGlow 2s infinite;
-}
-
-@keyframes successGlow {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.4; }
-}
-
-.safe-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at center, rgba(46,204,113,0.1) 0%, transparent 70%);
-  transform-style: preserve-3d;
-  transform: translateZ(20px);
-}
-
-.secret-code {
-  text-shadow: 0 0 10px rgba(46,204,113,0.5);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { 
-    text-shadow: 0 0 10px rgba(46,204,113,0.5);
-    transform: scale(1);
-  }
-  50% { 
-    text-shadow: 0 0 20px rgba(46,204,113,0.8);
-    transform: scale(1.05);
-  }
-}
-
-.safe.open .safe-content {
-  animation: reveal 2s forwards;
-}
-
-@keyframes reveal {
-  0% { opacity: 0; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-`; 
+export default CodeSecret;

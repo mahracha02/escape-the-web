@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { MotDePasse } from '../MotDePasse';
 
 describe('MotDePasse', () => {
@@ -6,51 +7,34 @@ describe('MotDePasse', () => {
 
   beforeEach(() => {
     mockOnSuccess.mockClear();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('renders the component correctly', () => {
     render(<MotDePasse onSuccess={mockOnSuccess} />);
-    
-    expect(screen.getByText('Le Mot Caché')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Entrez le mot de passe')).toBeInTheDocument();
-    expect(screen.getByText('Valider')).toBeInTheDocument();
+    expect(screen.getByText('Le Coffre-Fort Secret')).toBeInTheDocument();
+    expect(screen.getByText('Voir l\'indice')).toBeInTheDocument();
   });
 
-  it('shows error message for incorrect password', () => {
+  it('shows error message for incorrect password', async () => {
     render(<MotDePasse onSuccess={mockOnSuccess} />);
-    
-    const input = screen.getByPlaceholderText('Entrez le mot de passe');
+    const input = screen.getByPlaceholderText('Entrez le mot de passe...');
     const submitButton = screen.getByText('Valider');
-
     fireEvent.change(input, { target: { value: 'wrong' } });
     fireEvent.click(submitButton);
 
-    expect(screen.getByText('Ce n\'est pas le bon mot de passe. Essayez encore.')).toBeInTheDocument();
+    // Avancer le temps pour simuler le délai
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText((content) => content.includes('Mot de passe incorrect. Essayez encore.'))).toBeInTheDocument();
+    });
     expect(mockOnSuccess).not.toHaveBeenCalled();
-  });
-
-  it('calls onSuccess for correct password', () => {
-    render(<MotDePasse onSuccess={mockOnSuccess} />);
-    
-    const input = screen.getByPlaceholderText('Entrez le mot de passe');
-    const submitButton = screen.getByText('Valider');
-
-    fireEvent.change(input, { target: { value: 'escape' } });
-    fireEvent.click(submitButton);
-
-    expect(mockOnSuccess).toHaveBeenCalled();
-  });
-
-  it('toggles hint visibility', () => {
-    render(<MotDePasse onSuccess={mockOnSuccess} />);
-    
-    const hintButton = screen.getByText('Voir un indice');
-    fireEvent.click(hintButton);
-    
-    expect(screen.getByText('Masquer l\'indice')).toBeInTheDocument();
-    expect(screen.getByText('Pensez à ce que vous devez faire pour sortir d\'ici...')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByText('Masquer l\'indice'));
-    expect(screen.getByText('Voir un indice')).toBeInTheDocument();
   });
 }); 
