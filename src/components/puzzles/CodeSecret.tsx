@@ -106,7 +106,7 @@ export const CodeSecret = ({ onSuccess }: CodeSecretProps) => {
                   <div className="safe-display">
                     <div className="code-display">
                       {code.split('').map((digit, index) => (
-                        <div key={index} className="code-digit">{digit}</div>
+                        <div key={index} className="code-digit" data-testid={`code-digit-${digit}`}>{digit}</div>
                       ))}
                       {Array(4 - code.length).fill('').map((_, index) => (
                         <div key={`empty-${index}`} className="code-digit empty" />
