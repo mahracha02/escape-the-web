@@ -1,62 +1,58 @@
 import js from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
 
-export default [
-  // JS/TS/React config for src
+export default tseslint.config(
+  { ignores: ['dist'] },
   {
-    ...js.configs.recommended,
-    files: ['src/**/*.{ts,tsx,js,jsx}'],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true
-        }
-      },
-      globals: {
-        ...globals.browser
-      }
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
     plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
     rules: {
-      'react/react-in-jsx-scope': 'off',
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn'
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { 
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }]
     },
-    settings: {
-      react: {
-        version: 'detect'
-      }
-    }
   },
-  // Node config for config files
+  // Configuration pour les fichiers de configuration
   {
-    files: ['*.js', '*.cjs', '*.mjs', '*.ts'],
-    ignores: ['src/**'],
+    files: ['*.config.{js,ts}', 'vite.config.ts'],
     languageOptions: {
-      parserOptions: {
-        sourceType: 'module'
-      },
       globals: {
         ...globals.node
       }
+    },
+    rules: {
+      '@typescript-eslint/no-unused-expressions': 'off'
     }
   },
-  // Jest config for test files
+  // Configuration pour les tests
   {
-    files: ['src/**/*.test.{ts,tsx,js,jsx}'],
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.ts'],
     languageOptions: {
       globals: {
         ...globals.jest
       }
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off'
     }
   }
-]
+)
