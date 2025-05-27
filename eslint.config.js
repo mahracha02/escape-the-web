@@ -4,38 +4,59 @@ import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 
-export default tseslint.config(
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+export default [
+  // JS/TS/React config for src
   {
-    files: ['**/*.{ts,tsx}'],
+    ...js.configs.recommended,
+    files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.es2021,
-      },
       parser: tseslint.parser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: {
-          jsx: true,
-        },
+          jsx: true
+        }
       },
+      globals: {
+        ...globals.browser
+      }
     },
     plugins: {
       react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
+      'react-hooks': reactHooksPlugin
     },
     rules: {
       'react/react-in-jsx-scope': 'off',
       'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/exhaustive-deps': 'warn'
     },
     settings: {
       react: {
-        version: 'detect',
-      },
-    },
+        version: 'detect'
+      }
+    }
   },
-)
+  // Node config for config files
+  {
+    files: ['*.js', '*.cjs', '*.mjs', '*.ts'],
+    ignores: ['src/**'],
+    languageOptions: {
+      parserOptions: {
+        sourceType: 'module'
+      },
+      globals: {
+        ...globals.node
+      }
+    }
+  },
+  // Jest config for test files
+  {
+    files: ['src/**/*.test.{ts,tsx,js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.jest
+      }
+    }
+  }
+]
