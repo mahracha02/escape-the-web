@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "framer-motion": "^11.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

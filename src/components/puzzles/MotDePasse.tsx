@@ -281,7 +281,7 @@ export const MotDePasse = ({ onSuccess }: MotDePasseProps) => {
   );
 };
 
-const styles = `
+const _styles = `
 .card-container {
   position: relative;
   min-height: 300px;
