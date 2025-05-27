@@ -33,7 +33,7 @@ export const CodeSecret = ({ onSuccess }: CodeSecretProps) => {
     if (code === '1337') {
       setIsSafeOpen(true);
       setTimeout(() => {
-        setIsSuccess(true);
+        setIsSuccess(true); 
       }, 3000);
       setTimeout(() => {
         onSuccess();
