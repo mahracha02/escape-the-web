@@ -127,7 +127,6 @@ Les tests end-to-end vérifient :
 - La saisie et validation des réponses
 - L'affichage des messages d'erreur
 - La progression vers l'énigme suivante
-- L'interaction avec les éléments de l'interface
 
 ## 🎨 Technologies Utilisées
 
