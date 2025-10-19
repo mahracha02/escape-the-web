@@ -116,7 +116,7 @@ export const Labyrinthe = ({ onSuccess }: LabyrintheProps) => {
       animate={{ opacity: 1, y: 0 }}
       className="puzzle-container"
       style={{
-        backgroundImage: 'url("/images/color-bg.jpg")',
+        background: 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)',
       }}
     >
       <div className="relative z-10 p-8">

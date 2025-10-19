@@ -71,7 +71,7 @@ export const MotDePasse = ({ onSuccess }: MotDePasseProps) => {
       animate={{ opacity: 1, y: 0 }}
       className="puzzle-container"
       style={{
-        backgroundImage: 'url("/images/password-bg.jpg")',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       }}
     >
       <div className="relative z-10 p-8">
